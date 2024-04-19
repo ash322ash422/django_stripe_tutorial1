@@ -12,9 +12,12 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config, AutoConfig #store parameters in .ini or .env files;
+from decouple import Config, RepositoryEnv #or use this to specify path
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+print("BASE_DIR=",BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -26,7 +29,6 @@ SECRET_KEY = 'django-insecure-8+#6b+zu2+9gfe5-mso6#!!u0^qr!u7sihh&((&n(^mb!*22j4
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -124,7 +126,22 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #Or see secret_do_not_make_public.txt
-STRIPE_PUBLIC_KEY_TEST = os.getenv('STRIPE_PUBLIC_KEY_TEST')
-STRIPE_SECRET_KEY_TEST = os.getenv('STRIPE_SECRET_KEY_TEST') 
+#STRIPE_PUBLIC_KEY_TEST = os.getenv('STRIPE_PUBLIC_KEY_TEST')
+STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY_TEST')
+
+#STRIPE_SECRET_KEY_TEST = os.getenv('STRIPE_SECRET_KEY_TEST') 
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY_TEST') 
+
 #STRIPE_WEBHOOK_SECRET_TEST = os.getenv('STRIPE_WEBHOOK_SECRET_TEST')
-PRODUCT_PRICE = os.getenv('PRODUCT_PRICE')
+
+#PRODUCT_PRICE_API_ID_HERE = os.getenv('PRODUCT_PRICE_TEST')
+PRODUCT_PRICE_API_ID_HERE = config('PRODUCT_PRICE_TEST')
+
+#Following is an alternative:
+#DOTENV_FILE = r'C:\Users\hi\Desktop\projects\python_projects\django_stripe_tutorial\.env'
+#env_config = Config(RepositoryEnv(DOTENV_FILE))
+
+# use the Config().get() method as you normally would since 
+# decouple.config uses that internally. 
+# i.e. config('SECRET_KEY') = env_config.get('SECRET_KEY')
+#SECRET_KEY = env_config.get('SECRET_KEY')

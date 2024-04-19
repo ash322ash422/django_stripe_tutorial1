@@ -1,2 +1,4 @@
 *.pyc
 secret_do_not_make_public.txt
+.env
+.venv/*
